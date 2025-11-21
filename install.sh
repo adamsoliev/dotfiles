@@ -3,6 +3,13 @@ set -e
 
 echo "Setting up dotfiles on new server..."
 
+# Ensure core build tools are available on Debian/Ubuntu systems
+if command -v apt &> /dev/null; then
+  echo "Installing the build-essential package, which includes GCC, G++, and Make..."
+  sudo apt update
+  sudo apt install build-essential
+fi
+
 # Check and install zsh if it's not present
 if ! command -v zsh &> /dev/null; then
   echo "Zsh not found, installing now..."
