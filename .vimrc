@@ -1,4 +1,3 @@
-" Download plug.vim and put it in the "autoload" directory.
 call plug#begin()
 
 " --- Plug ---
@@ -41,7 +40,21 @@ syntax enable
 set autowrite
 
 " --- Colorscheme ---
-colorscheme pablo
+"  https://vimcolorschemes.com/vim/colorschemes
+colorscheme desert
+
+" Change the default blue keyword color to a brighter blue
+" found using
+"   1) move your cursor over text you want to change the color of
+"   2) :echo synIDattr(synID(line("."), col("."), 1), "name") # to find the name of the highlight group
+hi sqlKeyword ctermfg=LightBlue
+hi vimNotation ctermfg=LightBlue
+hi vimMapModKey ctermfg=LightBlue
+hi vimMapMod ctermfg=LightBlue
+hi vimBracket ctermfg=LightBlue
+hi vimMapMod ctermfg=LightBlue
+hi vimParenSep ctermfg=LightBlue
+
 
 " --- UI & Appearance ---
 set showmode
@@ -110,3 +123,4 @@ set updatetime=300
 " check one time after 'updatetime' ms of inactivity in normal mode
 set autoread
 au CursorHold * checktime
+

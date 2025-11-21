@@ -120,11 +120,13 @@ alias gst='git status '
 alias gd='git diff '
 alias gr='git restore '
 alias gco='git checkout '
-alias gbdlocal="git fetch --prune; git branch -vv | grep 'gone]' | awk '{print $1}' | xargs git branch -D"
+alias gb='git branch '
+alias gclean="git fetch --prune; git branch -vv | grep 'gone]' | awk '{print $1}' | xargs git branch -D"
 
 # AI CLI
 alias updateclaude='claude update'
 alias updategemini='npm install -g @google/gemini-cli@latest'
+alias updatecodex='brew upgrade codex'
 
 # alias ohmyzsh="mate ~/.oh-my-zsh" 
 
@@ -134,69 +136,6 @@ alias m='multipass '
 alias mdefault='multipass launch -c 4 -m 4G -d 25G'
 
 alias dots="~/Development/dotfiles/sync.sh"
-
-alias cf='function _clangf() {
-  # ---------- extensions ----------
-  local exts=("$@")
-  if [ ${#exts[@]} -eq 0 ]; then           # default set
-    exts=(c h cc cpp cxx c++ hh hpp hxx h++ cppm ixx txx tpp)
-  fi
-
-  # ---------- build the find filter safely ----------
-  local args=()
-  for ext in "${exts[@]}"; do
-    [[ ${#args[@]} -gt 0 ]] && args+=(-o)
-    args+=(-iname "*.${ext#.}")            # strip leading dot if given
-  done
-
-  # ---------- run clang‑format ----------
-  find . \( "${args[@]}" \) -print0 |
-    xargs -0 /opt/homebrew/Cellar/llvm/20.1.4/bin/clang-format -i
-}; _clangf'
-
-
-alias countloc='function _countloc() {
-  if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
-    echo "Usage: countloc [FLAGS] <extensions...>"
-    echo "Example: countloc .cpp .h"
-    echo ""
-    echo "Flags:"
-    echo "  -so, --summary-only   Show only subtotals and total, skip per-file details"
-    echo "  -h,  --help           Show this help message"
-    return
-  fi
-
-  summary_only=0
-  if [ "$1" = "--summary-only" ] || [ "$1" = "-so" ]; then
-    summary_only=1
-    shift
-  fi
-
-  total=0
-  for ext in "$@"; do
-    subtotal=0
-    files=()
-    while IFS= read -r -d "" file; do
-      lines=$(wc -l < "$file")
-      files+=("$file:$lines")
-      subtotal=$((subtotal + lines))
-    done < <(find . -path ./build -prune -o -type f -name "*$ext" -print0)
-
-    if [ $summary_only -eq 0 ]; then
-      echo "== $ext files =="
-      for entry in "${files[@]}"; do
-        file="${entry%%:*}"
-        lines="${entry##*:}"
-        printf "  %-40s %5d\n" "$file" "$lines"
-      done
-    fi
-
-    printf "%-6s subtotal: %d\n\n" "$ext" "$subtotal"
-    total=$((total + subtotal))
-  done
-  echo "Total : $total"
-}; _countloc'
-
 
 # Bun
 [ -s "/Users/adamsoliev/.bun/_bun" ] && source "/Users/adamsoliev/.bun/_bun"  # completions
@@ -273,4 +212,5 @@ alias sk='screen -S $1 -X quit' # screen kill
 export MallocNanoZone=0
 
 export CMAKE_BUILD_PARALLEL_LEVEL=$(($(sysctl -n hw.ncpu) - 2))
+export EDITOR=vim 
 
