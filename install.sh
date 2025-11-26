@@ -44,10 +44,10 @@ cp .vimrc ~/
 # Ensure ZSH theme is set after copying your dotfiles
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS (BSD sed)
-  sed -i '' 's/^ZSH_THEME=".*"/ZSH_THEME="evan"/' ~/.zshrc
+  sed -i '' 's/^ZSH_THEME=".*"/ZSH_THEME="af-magic"/' ~/.zshrc
 else
   # Linux (GNU sed)
-  sed -i 's/^ZSH_THEME=".*"/ZSH_THEME="evan"/' ~/.zshrc
+  sed -i 's/^ZSH_THEME=".*"/ZSH_THEME="af-magic"/' ~/.zshrc
 fi
 
 # Switch to zsh (this will change the default shell for subsequent logins)
