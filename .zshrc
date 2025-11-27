@@ -211,6 +211,14 @@ alias sk='screen -S $1 -X quit' # screen kill
 # in some debug builds
 export MallocNanoZone=0
 
-export CMAKE_BUILD_PARALLEL_LEVEL=$(($(sysctl -n hw.ncpu) - 2))
+# detect core count (macos vs linux)
+if [[ "$(uname)" == "Darwin" ]]; then
+    _cores=$(sysctl -n hw.ncpu)
+else
+    _cores=$(nproc)
+fi
+# Set Parallel Level: (Total Cores - 2), but never less than 1
+export CMAKE_BUILD_PARALLEL_LEVEL=$(( _cores > 2 ? _cores - 2 : 1 ))
+
 export EDITOR=vim 
 
