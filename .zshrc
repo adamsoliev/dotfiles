@@ -70,7 +70,7 @@ ZSH_THEME="evan"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-# plugins=(git)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,7 +103,6 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="vim ~/.zshrc"
 alias srczsh="source ~/.zshrc"
 
-alias clang-format="/opt/homebrew/opt/llvm/bin/clang-format"
 alias du='du -h'
 
 # Grep
@@ -112,16 +111,16 @@ alias cgrep="grep -r -i -B 5 -A 5 "
 alias rgrep='rg'
 
 # Git
-alias ga='git add '
-alias gcmsg='git commit -m '
-alias gp='git push '
-alias gl='git pull '
-alias gst='git status '
-alias gd='git diff '
-alias gr='git restore '
-alias gco='git checkout '
-alias gb='git branch '
-alias gclean="git fetch --prune; git branch -vv | grep 'gone]' | awk '{print $1}' | xargs git branch -D"
+# alias ga='git add '
+# alias gcmsg='git commit -m '
+# alias gp='git push '
+# alias gl='git pull '
+# alias gst='git status '
+# alias gd='git diff '
+# alias gr='git restore '
+# alias gco='git checkout '
+# alias gb='git branch '
+# alias gclean="git fetch --prune; git branch -vv | grep 'gone]' | awk '{print $1}' | xargs git branch -D"
 
 # AI CLI
 alias updateclaude='claude update'
@@ -138,48 +137,15 @@ alias mdefault='multipass launch -c 4 -m 4G -d 25G'
 alias dots="~/Development/dotfiles/sync.sh"
 
 # Bun
-[ -s "/Users/adamsoliev/.bun/_bun" ] && source "/Users/adamsoliev/.bun/_bun"  # completions
 export BUN_INSTALL="$HOME/.bun"
+[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"  # completions
 
-# CAVEATS of brew install llvm 
-# ==> llvm
-# CLANG_CONFIG_FILE_SYSTEM_DIR: /opt/homebrew/etc/clang
-# CLANG_CONFIG_FILE_USER_DIR:   ~/.config/clang
-# 
-# LLD is now provided in a separate formula:
-#   brew install lld
-# 
-# We plan to build LLVM 20 with `LLVM_ENABLE_EH=OFF`. Please see:
-#   https://github.com/orgs/Homebrew/discussions/5654
-# 
-# Using `clang`, `clang++`, etc., requires a CLT installation at `/Library/Developer/CommandLineTools`.
-# If you don't want to install the CLT, you can write appropriate configuration files pointing to your
-# SDK at ~/.config/clang.
-# 
-# To use the bundled libunwind please use the following LDFLAGS:
-#   LDFLAGS="-L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
-# 
-# To use the bundled libc++ please use the following LDFLAGS:
-#   LDFLAGS="-L/opt/homebrew/opt/llvm/lib/c++ -L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
-# 
-# NOTE: You probably want to use the libunwind and libc++ provided by macOS unless you know what you're doing.
-# 
-# llvm is keg-only, which means it was not symlinked into /opt/homebrew,
-# because macOS already provides this software and installing another version in
-# parallel can cause all kinds of trouble.
-# 
-# If you need to have llvm first in your PATH, run:
-#   echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/adamsoliev/.zshrc
-# 
-# For compilers to find llvm you may need to set:
-export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+# LLVM configuration - only uncomment if you need Homebrew LLVM for specific projects
+# export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
-export PATH="$HOME/go/bin:$PATH"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# Consolidated PATH configuration
+export PATH="$BUN_INSTALL/bin:/opt/homebrew/bin:$HOME/.local/bin:/opt/homebrew/opt/libpq/bin:$HOME/go/bin:$PATH"
 
 # Load environment variables from .env file
 if [ -f ~/.env ]; then
@@ -204,8 +170,18 @@ s() {
 #   Press Ctrl+A, then D to detach
 #   screen -r benchmark # reconnect later
 
-alias sl='screen -ls'           # screen list
-alias sk='screen -S $1 -X quit' # screen kill
+alias sl='screen -ls'  # screen list
+
+# screen kill - needs to be a function to accept arguments
+sk() {
+    if [ -z "$1" ]; then
+        echo "Usage: sk <session_name>"
+        return 1
+    fi
+    screen -S "$1" -X quit
+}
+
+alias dsstore='find . -name .DS_Store -delete' # deletes recursively
 
 # prevents `malloc: nano zone abandoned due to inability to reserve vm space`
 # in some debug builds
@@ -213,4 +189,12 @@ export MallocNanoZone=0
 
 export CMAKE_BUILD_PARALLEL_LEVEL=$(($(sysctl -n hw.ncpu) - 2))
 export EDITOR=vim 
+
+rgs() {
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "                                        Search: $@                                  "
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    rg "$@"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+}
 
