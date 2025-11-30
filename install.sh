@@ -27,6 +27,11 @@ else
   echo "git is already installed."
 fi
 
+# Configure git user name and email
+echo "Configuring git user name and email..."
+git config --global user.name "adamsoliev"
+git config --global user.email "asoliyev13@gmail.com"
+
 # Install vim (required for vim-plug)
 if ! command -v vim &> /dev/null; then
   echo "Installing vim..."
