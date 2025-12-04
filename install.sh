@@ -74,6 +74,30 @@ else
   echo "clangd and clang-format are already installed."
 fi
 
+# Install cmake (build system generator)
+if ! command -v cmake &> /dev/null; then
+  echo "Installing cmake..."
+  if command -v apt &> /dev/null; then
+    sudo apt install -y cmake
+  elif [[ "$OSTYPE" == "darwin"* ]] && command -v brew &> /dev/null; then
+    brew install cmake
+  fi
+else
+  echo "cmake is already installed."
+fi
+
+# Install pkg-config (helper tool for compiling)
+if ! command -v pkg-config &> /dev/null; then
+  echo "Installing pkg-config..."
+  if command -v apt &> /dev/null; then
+    sudo apt install -y pkg-config
+  elif [[ "$OSTYPE" == "darwin"* ]] && command -v brew &> /dev/null; then
+    brew install pkg-config
+  fi
+else
+  echo "pkg-config is already installed."
+fi
+
 # Check and install zsh if it's not present
 if ! command -v zsh &> /dev/null; then
   echo "Zsh not found, installing now..."
