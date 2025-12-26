@@ -7,6 +7,7 @@ BreakBeforeBraces: Allman
 BinPackParameters: false
 BinPackArguments: false
 AlignAfterOpenBracket: AlwaysBreak
+AllowAllParametersOfDeclarationOnNextLine: false
 ColumnLimit: 120
 IndentWidth: 8
 TabWidth: 8
