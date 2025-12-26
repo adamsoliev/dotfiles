@@ -1,0 +1,11 @@
+# Complete list of style options can be found at:
+# http://clang.llvm.org/docs/ClangFormatStyleOptions.html
+---
+# min style to make reading a bit easier
+Language: Cpp
+BreakBeforeBraces: Allman
+BinPackParameters: false
+BinPackArguments: false
+AlignAfterOpenBracket: AlwaysBreak
+ColumnLimit: 120
+...
