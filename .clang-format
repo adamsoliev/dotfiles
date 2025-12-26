@@ -8,4 +8,6 @@ BinPackParameters: false
 BinPackArguments: false
 AlignAfterOpenBracket: AlwaysBreak
 ColumnLimit: 120
+IndentWidth: 8
+TabWidth: 8
 ...
