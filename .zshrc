@@ -100,8 +100,8 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="vim ~/.zshrc"
-alias srczsh="source ~/.zshrc"
+alias vz="vim ~/.zshrc"
+alias sz="source ~/.zshrc"
 
 alias du='du -h'
 
@@ -198,3 +198,12 @@ rgs() {
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 }
 
+# Added by Antigravity
+export PATH="/Users/adamsoliev/.antigravity/antigravity/bin:$PATH"
+
+alias brock="USE_RTTI=1 make static_lib -j$(nproc)"
+alias crock="rm -rf /tmp/rocksdb*"
+alias mexample="USE_RTTI=1 make modern_simple_example"
+alias cexample="USE_RTTI=1 make compaction_example"
+
+alias cheat='cat Development/cheatsheet'

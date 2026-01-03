@@ -2,8 +2,10 @@ call plug#begin()
 
 " --- Plug ---
 "  https://thevaluable.dev/fzf-vim-integration/
+
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" Plug 'nanotech/jellybeans.vim'
 
 call plug#end()
 
@@ -42,6 +44,7 @@ set autowrite
 " --- Colorscheme ---
 "  https://vimcolorschemes.com/vim/colorschemes
 colorscheme desert
+" colorscheme jellybeans
 
 " Change the default blue keyword color to a brighter blue
 " found using
