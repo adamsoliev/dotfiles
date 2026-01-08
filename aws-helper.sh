@@ -144,7 +144,80 @@ select_running_instance() {
     update_ssh_alias "$public_dns"
 }
 
-# Flow 3: Stop a running instance
+# Flow 3: Add SSH rule for current IP
+add_ssh_rule() {
+    echo "Fetching your current public IP..."
+    my_ip=$(curl -s https://checkip.amazonaws.com)
+
+    if [ -z "$my_ip" ]; then
+        echo "Failed to fetch your public IP."
+        exit 1
+    fi
+
+    echo "Your IP: $my_ip"
+    echo ""
+    echo "Fetching running instances..."
+
+    instances=$(aws ec2 describe-instances \
+        --filters "Name=instance-state-name,Values=running" \
+        --query 'Reservations[*].Instances[*].[InstanceId,Tags[?Key==`Name`].Value | [0]]' \
+        --output text)
+
+    if [ -z "$instances" ]; then
+        echo "No running instances found."
+        exit 0
+    fi
+
+    echo ""
+    echo "Running instances:"
+    echo "-------------------"
+
+    selected_id=$(select_instance "$instances")
+
+    # Get the security group ID for the selected instance
+    sg_id=$(aws ec2 describe-instances \
+        --instance-ids "$selected_id" \
+        --query 'Reservations[0].Instances[0].SecurityGroups[0].GroupId' \
+        --output text)
+
+    if [ -z "$sg_id" ] || [ "$sg_id" = "None" ]; then
+        echo "No security group found for this instance."
+        exit 1
+    fi
+
+    sg_name=$(aws ec2 describe-instances \
+        --instance-ids "$selected_id" \
+        --query 'Reservations[0].Instances[0].SecurityGroups[0].GroupName' \
+        --output text)
+
+    echo ""
+    echo "Security group: $sg_name ($sg_id)"
+    echo "Adding SSH rule for $my_ip/32..."
+
+    # Check if rule already exists
+    existing_rule=$(aws ec2 describe-security-group-rules \
+        --filters "Name=group-id,Values=$sg_id" \
+        --query "SecurityGroupRules[?IpProtocol=='tcp' && FromPort==\`22\` && ToPort==\`22\` && CidrIpv4=='$my_ip/32'].SecurityGroupRuleId" \
+        --output text)
+
+    if [ -n "$existing_rule" ]; then
+        echo "SSH rule for $my_ip/32 already exists."
+        exit 0
+    fi
+
+    aws ec2 authorize-security-group-ingress \
+        --group-id "$sg_id" \
+        --protocol tcp \
+        --port 22 \
+        --cidr "$my_ip/32" \
+        --output text
+
+    echo ""
+    echo "SSH rule added successfully!"
+    echo "You can now SSH to the instance from $my_ip"
+}
+
+# Flow 4: Stop a running instance
 stop_instance() {
     echo "Fetching running instances..."
 
@@ -177,13 +250,15 @@ echo "AWS Instance Helper"
 echo "==================="
 echo "1) Start a stopped instance"
 echo "2) Select a running instance"
-echo "3) Stop a running instance"
+echo "3) Add SSH rule for current IP"
+echo "4) Stop a running instance"
 echo ""
-read -p "Choose an option (1-3): " option
+read -p "Choose an option (1-4): " option
 
 case $option in
     1) start_instance ;;
     2) select_running_instance ;;
-    3) stop_instance ;;
+    3) add_ssh_rule ;;
+    4) stop_instance ;;
     *) echo "Invalid option."; exit 1 ;;
 esac
