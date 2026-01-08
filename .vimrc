@@ -9,8 +9,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-
-" Plug 'nanotech/jellybeans.vim'
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
@@ -31,8 +30,14 @@ noremap <leader>2 2gt
 noremap <leader>3 3gt
 noremap <leader>4 4gt
 
-" Show diagnostic under the cursor in a floating window
+" LSP settings
+let g:lsp_document_code_action_signs_enabled = 0
+let g:lsp_diagnostics_signs_enabled = 0
+
+" LSP diagnostics
 nnoremap <leader>d :LspDocumentDiagnostics<CR>
+nmap ]d :LspNextDiagnostic<CR>
+nmap [d :LspPreviousDiagnostic<CR>
 
 highlight link DiagnosticError ErrorMsg
 highlight link DiagnosticWarning WarningMsg
@@ -45,13 +50,36 @@ highlight link DiagnosticSignWarning DiagnosticWarning
 highlight link DiagnosticSignInfo DiagnosticInfo
 highlight link DiagnosticSignHint DiagnosticHint
 
+" vim-lsp virtual text colors
+highlight LspErrorText ctermfg=red guifg=red
+highlight LspWarningText ctermfg=yellow guifg=yellow
+highlight LspInformationText ctermfg=cyan guifg=cyan
+highlight LspHintText ctermfg=green guifg=green
+
 " Line navigation respects wrapped lines
 nnoremap j gj
 nnoremap k gk
 
+" Save with <leader>w
+nmap <leader>w :w!<CR>
+
+" Easy escape from insert mode
+imap jj <Esc>
+
+" Window navigation with Ctrl
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
+" Toggle comment
+nmap <leader>/ gcc
+vmap <leader>/ gc
+
+" Clear search highlight
+command! H let @/=""
 
 " --- General ---
-set nocompatible
 set encoding=utf-8
 set mouse=a
 set background=dark
@@ -62,7 +90,6 @@ set autowrite
 " --- Colorscheme ---
 "  https://vimcolorschemes.com/vim/colorschemes
 colorscheme desert
-" colorscheme jellybeans
 
 " Change the default blue keyword color to a brighter blue
 " found using
@@ -73,12 +100,10 @@ hi vimNotation ctermfg=LightBlue
 hi vimMapModKey ctermfg=LightBlue
 hi vimMapMod ctermfg=LightBlue
 hi vimBracket ctermfg=LightBlue
-hi vimMapMod ctermfg=LightBlue
 hi vimParenSep ctermfg=LightBlue
 
 
 " --- UI & Appearance ---
-set showmode
 set noshowmode          " Powerline handles mode display
 set showcmd
 set laststatus=2
@@ -87,14 +112,12 @@ set nowrap
 set tw=79               " Text width for automatic line breaks
 highlight LineNr ctermfg=yellow
 
-" --- GUI options (ignored in terminal Vim) ---
-set guioptions-=T       " Remove top toolbar
-set guioptions-=r       " Remove right scroll bar
-set go-=L               " Remove left scroll bar
-set linespace=15
-set termwinsize=15x0
-" NOTE: Only applies in GVim or MacVim
-set guifont=menlo\ for\ powerline:h16
+" Statusline with LSP diagnostic counts
+set statusline=%f\ %m%r%h%w
+set statusline+=%=
+set statusline+=❌%{lsp#get_buffer_diagnostics_counts()['error']}\
+set statusline+=⚠️\ %{lsp#get_buffer_diagnostics_counts()['warning']}
+set statusline+=\ \ %l:%c
 
 " --- Tabs and Indentation ---
 set tabstop=2
@@ -110,6 +133,7 @@ set backspace=indent,eol,start
 
 " --- Searching ---
 set hlsearch
+set incsearch
 set ignorecase
 set smartcase
 
@@ -117,31 +141,9 @@ set smartcase
 set timeout
 set timeoutlen=200
 set ttimeoutlen=100
-
-" --- Key Mappings ---
-
-" Save with <leader>w
-nmap <leader>w :w!<CR>
-
-" Easy escape from insert mode
-imap jj <Esc>
-
-" Window navigation with Ctrl
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
-
-" Clear search highlight
-command! H let @/=""
-
-" Mac-specific key remap (safe to delete if not on MacVim)
-noremap <D-/> <C-/>
-
-" Set a more responsive updatetime
 set updatetime=300
 
-" check one time after 'updatetime' ms of inactivity in normal mode
+" --- Auto-reload ---
 set autoread
 au CursorHold * checktime
 

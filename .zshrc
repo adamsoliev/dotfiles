@@ -117,16 +117,7 @@ alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.
 alias cgrep="grep -r -i -B 5 -A 5 "
 alias rgrep='rg'
 
-# Git
-alias ga='git add '
-alias gcmsg='git commit -m '
-alias gp='git push '
-alias gl='git pull '
-alias gst='git status '
-alias gd='git diff'
-alias gr='git restore '
-alias gco='git checkout '
-alias gb='git branch '
+# Git (custom - most aliases come from oh-my-zsh git plugin)
 alias gclean="git fetch --prune && git branch -vv | grep 'gone]' | awk '{print \$1}' | xargs git branch -d"
 
 # AI CLI
