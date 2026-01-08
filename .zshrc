@@ -102,6 +102,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias vz="vim ~/.zshrc"
 alias sz="source ~/.zshrc"
+alias vv="vim ~/.vimrc"
 
 alias du='du -h'
 
@@ -206,4 +207,7 @@ alias crock="rm -rf /tmp/rocksdb*"
 alias mexample="USE_RTTI=1 make modern_simple_example"
 alias cexample="USE_RTTI=1 make compaction_example"
 
-alias cheat='cat Development/cheatsheet'
+alias cheat='cat /Users/adamsoliev/Development/cheatsheet'
+alias token='cat /Users/adamsoliev/Development/access_token.txt'
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+

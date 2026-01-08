@@ -1,3 +1,5 @@
+filetype plugin indent on
+
 call plug#begin()
 
 " --- Plug ---
@@ -5,6 +7,9 @@ call plug#begin()
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
 " Plug 'nanotech/jellybeans.vim'
 
 call plug#end()
@@ -26,6 +31,19 @@ noremap <leader>2 2gt
 noremap <leader>3 3gt
 noremap <leader>4 4gt
 
+" Show diagnostic under the cursor in a floating window
+nnoremap <leader>d :LspDocumentDiagnostics<CR>
+
+highlight link DiagnosticError ErrorMsg
+highlight link DiagnosticWarning WarningMsg
+highlight link DiagnosticInfo MoreMsg
+highlight link DiagnosticHint Title
+
+" Ensure the sign column icons also follow these colors
+highlight link DiagnosticSignError DiagnosticError
+highlight link DiagnosticSignWarning DiagnosticWarning
+highlight link DiagnosticSignInfo DiagnosticInfo
+highlight link DiagnosticSignHint DiagnosticHint
 
 " Line navigation respects wrapped lines
 nnoremap j gj
