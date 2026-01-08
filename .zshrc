@@ -74,6 +74,12 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+# History settings
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_DUPS
+setopt SHARE_HISTORY
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -112,16 +118,16 @@ alias cgrep="grep -r -i -B 5 -A 5 "
 alias rgrep='rg'
 
 # Git
-# alias ga='git add '
-# alias gcmsg='git commit -m '
-# alias gp='git push '
-# alias gl='git pull '
-# alias gst='git status '
-# alias gd='git diff '
-# alias gr='git restore '
-# alias gco='git checkout '
-# alias gb='git branch '
-# alias gclean="git fetch --prune; git branch -vv | grep 'gone]' | awk '{print $1}' | xargs git branch -D"
+alias ga='git add '
+alias gcmsg='git commit -m '
+alias gp='git push '
+alias gl='git pull '
+alias gst='git status '
+alias gd='git diff'
+alias gr='git restore '
+alias gco='git checkout '
+alias gb='git branch '
+alias gclean="git fetch --prune && git branch -vv | grep 'gone]' | awk '{print \$1}' | xargs git branch -d"
 
 # AI CLI
 alias updateclaude='claude update'
@@ -140,13 +146,6 @@ alias dots="~/Development/dotfiles/sync.sh"
 # Bun
 export BUN_INSTALL="$HOME/.bun"
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"  # completions
-
-# LLVM configuration - only uncomment if you need Homebrew LLVM for specific projects
-# export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-# export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
-
-# Consolidated PATH configuration
-export PATH="$BUN_INSTALL/bin:/opt/homebrew/bin:$HOME/.local/bin:/opt/homebrew/opt/libpq/bin:$HOME/go/bin:$PATH"
 
 # Load environment variables from .env file
 if [ -f ~/.env ]; then
@@ -199,15 +198,9 @@ rgs() {
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
 }
 
-# Added by Antigravity
-export PATH="/Users/adamsoliev/.antigravity/antigravity/bin:$PATH"
+# PATH
+export PATH="/opt/homebrew/opt/llvm/bin:$BUN_INSTALL/bin:/opt/homebrew/bin:$HOME/.local/bin:/opt/homebrew/opt/libpq/bin:$HOME/go/bin:$PATH"
 
-alias brock="USE_RTTI=1 make static_lib -j$(nproc)"
-alias crock="rm -rf /tmp/rocksdb*"
-alias mexample="USE_RTTI=1 make modern_simple_example"
-alias cexample="USE_RTTI=1 make compaction_example"
-
-alias cheat='cat /Users/adamsoliev/Development/cheatsheet'
-alias token='cat /Users/adamsoliev/Development/access_token.txt'
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+alias cheat='cat $HOME/Development/cheatsheet'
+alias token='cat $HOME/Development/access_token.txt'
 
