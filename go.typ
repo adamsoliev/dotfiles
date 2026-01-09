@@ -1,5 +1,5 @@
 #set page(width: 5in, height: 4in, margin: 0.2in)
-#set text(size: 6.5pt)
+#set text(font: "Libertinus Serif", size: 6.5pt)
 #set par(leading: 0.35em)
 
 #columns(2, gutter: 0.12in)[
