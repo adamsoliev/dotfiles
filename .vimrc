@@ -39,6 +39,14 @@ nnoremap <leader>d :LspDocumentDiagnostics<CR>
 nmap ]d :LspNextDiagnostic<CR>
 nmap [d :LspPreviousDiagnostic<CR>
 
+" LSP navigation
+nnoremap gd :LspDefinition<CR>
+nnoremap gi :LspImplementation<CR>
+nnoremap gr :LspReferences<CR>
+nnoremap K :LspHover<CR>
+nnoremap <leader>rn :LspRename<CR>
+nnoremap <leader>ca :LspCodeAction<CR>
+
 highlight link DiagnosticError ErrorMsg
 highlight link DiagnosticWarning WarningMsg
 highlight link DiagnosticInfo MoreMsg
@@ -55,6 +63,10 @@ highlight LspErrorText ctermfg=red guifg=red
 highlight LspWarningText ctermfg=yellow guifg=yellow
 highlight LspInformationText ctermfg=cyan guifg=cyan
 highlight LspHintText ctermfg=green guifg=green
+highlight LspErrorVirtualText ctermfg=red guifg=red
+highlight LspWarningVirtualText ctermfg=yellow guifg=yellow
+highlight LspInformationVirtualText ctermfg=cyan guifg=cyan
+highlight LspHintVirtualText ctermfg=green guifg=green
 
 " Line navigation respects wrapped lines
 nnoremap j gj
@@ -107,7 +119,8 @@ hi vimParenSep ctermfg=LightBlue
 set noshowmode          " Powerline handles mode display
 set showcmd
 set laststatus=2
-set relativenumber
+" set relativenumber
+set number
 set nowrap
 set tw=79               " Text width for automatic line breaks
 highlight LineNr ctermfg=yellow
