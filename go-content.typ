@@ -1,10 +1,8 @@
-#set page(width: 5in, height: 4in, margin: 0.2in)
-#set text(font: "Libertinus Serif", size: 6.5pt)
+#set text(font: "Libertinus Serif", size: 8pt)
 #set par(leading: 0.35em)
+#show heading: set text(size: 8pt)
 
 #columns(2, gutter: 0.12in)[
-= Go Project Navigation
-
 == Finding Code
 ```
 go list ./...              # all packages
@@ -38,8 +36,6 @@ go list -m all             # list modules
 ```
 
 #colbreak()
-
-= Performance & Profiling
 
 == Benchmarks
 ```
