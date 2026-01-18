@@ -122,6 +122,7 @@ alias gclean="git fetch --prune && git branch -vv | grep 'gone]' | awk '{print \
 
 # AI CLI
 alias updateclaude='claude update'
+alias clauded='claude --dangerously-skip-permissions'
 alias updategemini='npm install -g @google/gemini-cli@latest'
 alias updatecodex='brew upgrade codex'
 
@@ -173,6 +174,7 @@ sk() {
 }
 
 alias dsstore='find . -name .DS_Store -delete' # deletes recursively
+alias openmd='open -a "Zen"'
 
 # prevents `malloc: nano zone abandoned due to inability to reserve vm space`
 # in some debug builds
@@ -191,7 +193,21 @@ rgs() {
 
 # PATH
 export PATH="/opt/homebrew/opt/llvm/bin:$BUN_INSTALL/bin:/opt/homebrew/bin:$HOME/.local/bin:/opt/homebrew/opt/libpq/bin:$HOME/go/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH" # Ruby gems (Jekyll)
 
 alias cheat='cat $HOME/Development/cheatsheet'
 alias token='cat $HOME/Development/access_token.txt'
+
+# Confirm before exit
+exit() {
+    read -q "REPLY?Really exit? [y/N] " && builtin exit
+    echo
+}
+
+
+# Claude Sessions Viewer
+alias cs='open http://localhost:8420'
+alias cs-restart='launchctl kickstart -k gui/$(id -u)/com.adamsoliev.claude-sessions'
+alias cs-stop='launchctl unload ~/Library/LaunchAgents/com.adamsoliev.claude-sessions.plist'
+alias cs-start='launchctl load ~/Library/LaunchAgents/com.adamsoliev.claude-sessions.plist'
 
