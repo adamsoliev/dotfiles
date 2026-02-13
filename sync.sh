@@ -13,12 +13,13 @@ cd "$SCRIPT_DIR"
 # Copy dotfiles to repo
 cp ~/.zshrc .zshrc
 cp ~/.vimrc .vimrc
+cp ~/.claude/CLAUDE.md CLAUDE.md
 
 # Ensure ZSH theme is always set to "evan" in the repo
 sed -i '' 's/^ZSH_THEME=".*"/ZSH_THEME="evan"/' .zshrc
 
 # Commit and push changes
-git add .zshrc .vimrc
+git add .zshrc .vimrc CLAUDE.md
 if git diff --quiet --cached; then
     echo "No changes to commit"
     exit 0
