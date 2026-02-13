@@ -19,7 +19,7 @@ Use the simplest tool that fits the complexity:
 
 When asked to explain something, set `/output-style` to `Learning` and provide:
 1. Clear, structured text explanation
-2. A high-level visual or diagram (using Mermaid) to illustrate the concept
+2. A high-level visual or diagram to illustrate the concept
 
 ## Git Operations
 
