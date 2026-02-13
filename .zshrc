@@ -122,7 +122,7 @@ alias gclean="git fetch --prune && git branch -vv | grep 'gone]' | awk '{print \
 
 # AI CLI
 alias updateclaude='claude update'
-alias clauded='claude --dangerously-skip-permissions'
+alias clauded='claude --dangerously-skip-permissions --chrome --verbose' 
 alias updategemini='npm install -g @google/gemini-cli@latest'
 alias updatecodex='brew upgrade codex'
 
@@ -174,7 +174,7 @@ sk() {
 }
 
 alias dsstore='find . -name .DS_Store -delete' # deletes recursively
-alias openmd='open -a "Zen"'
+alias openmd='open -a "Google Chrome"'
 
 # prevents `malloc: nano zone abandoned due to inability to reserve vm space`
 # in some debug builds
@@ -210,4 +210,6 @@ alias cs='open http://localhost:8420'
 alias cs-restart='launchctl kickstart -k gui/$(id -u)/com.adamsoliev.claude-sessions'
 alias cs-stop='launchctl unload ~/Library/LaunchAgents/com.adamsoliev.claude-sessions.plist'
 alias cs-start='launchctl load ~/Library/LaunchAgents/com.adamsoliev.claude-sessions.plist'
+
+alias bases='for i in {0..15}; do printf "Dec: %-2d | Hex: %-2x | Bin: %s\n" $i $i $(echo "obase=2; $i" | bc); done'
 

@@ -13,6 +13,12 @@ Plug 'tpope/vim-commentary'
 
 call plug#end()
 
+" fzf actions: ctrl-o=vsplit, ctrl-x=split, ctrl-t=tab
+let g:fzf_action = {
+  \ 'ctrl-o': 'vsplit',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-t': 'tab split' }
+
 " Use Space as the leader key
 let mapleader = " "
 
@@ -22,8 +28,10 @@ let mapleader = " "
 nnoremap <leader>f :Files<CR>
 " Find Git Files
 nnoremap <leader>g :GFiles<CR>
-" RIPGREP to search [pattern] through your files’ content
+" RIPGREP to search [pattern] through your files' content
 nnoremap <leader>r :Rg<CR>
+" Open terminal spanning full width at bottom (15 lines)
+nnoremap <leader>t :botright term ++rows=15<CR>
 " Go to tab by number
 noremap <leader>1 1gt
 noremap <leader>2 2gt
@@ -152,8 +160,8 @@ set smartcase
 
 " --- Timings ---
 set timeout
-set timeoutlen=200
-set ttimeoutlen=100
+set timeoutlen=500             " ms to complete mapped sequences (e.g. SPC v)
+set ttimeoutlen=100            " ms for terminal key codes (e.g. Esc)
 set updatetime=300
 
 " --- Auto-reload ---
